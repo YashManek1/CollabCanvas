@@ -4,14 +4,16 @@ import { Excalidraw } from "@excalidraw/excalidraw";
 import io from "socket.io-client";
 import debounce from "lodash/debounce"; // Add lodash for debouncing
 
-const socket = io("http://localhost:4000");
+const socket = io("https://collabcanvas-66mr.onrender.com");
 
 const Canvas = () => {
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
 
   useEffect(() => {
     socket.on("connect", () => console.log("Connected to backend"));
-    socket.on("connect_error", (err) => console.error("Connection error:", err));
+    socket.on("connect_error", (err) =>
+      console.error("Connection error:", err)
+    );
 
     if (!excalidrawAPI) return;
 
@@ -39,7 +41,10 @@ const Canvas = () => {
   return (
     <div style={{ height: "500px", border: "1px solid #ccc" }}>
       <Excalidraw
-        initialData={{ elements: [], appState: { viewBackgroundColor: "#ffffff" } }}
+        initialData={{
+          elements: [],
+          appState: { viewBackgroundColor: "#ffffff" },
+        }}
         onChange={onChange}
         excalidrawAPI={(api) => setExcalidrawAPI(api)}
         UIOptions={{ canvasActions: { multiplayer: false } }}
